@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:first_app/products.dart';
+import 'package:first_app/product_control.dart';
 
 class ProductManager extends StatefulWidget {
 
@@ -23,19 +24,22 @@ class _ProductManagerState extends State<ProductManager> {
     _products.add(widget.startingProduct); // widget property is provided to flutter to access parent properties.
   }
 
+  @override
+  void didUpdateWidget(ProductManager oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _addProduct(String product) {
+    setState(() {
+      _products.add(product);
+    });
+  }
+
   Widget build(BuildContext context) {
     return Column( children: [
       Container(
         margin: EdgeInsets.all(10.0),
-        child: RaisedButton(
-          color: Theme.of(context).primaryColor,
-          onPressed: () {
-            setState(() {
-                _products.add('Advanced Food Tester');
-            });
-          },
-          child: Text('Add Product'),
-        ),
+        child: ProductControl(_addProduct)
       ),
       Products(_products)
     ]);
