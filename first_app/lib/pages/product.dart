@@ -9,6 +9,33 @@ class ProductPage extends StatelessWidget {
 
   ProductPage(this.title, this.imageUrl);
 
+  _showWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:  Text('Are you sure?'),
+          content: Text('This action cannot be undone!'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('DISCARD'),
+              onPressed: () {
+                Navigator.pop(context); // this will only close the alert dialog
+              },
+            ),
+            FlatButton(
+              child: Text('CONTINUE'),
+              onPressed: () {
+                Navigator.pop(context); // this will close the alert
+                Navigator.pop(context, true); // this will navigate to the next page
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -33,7 +60,9 @@ class ProductPage extends StatelessWidget {
               child: RaisedButton(
                 color: Theme.of(context).accentColor,
                 child: Text('Delete'),
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: () {
+                  return this._showWarningDialog(context);
+                }
               ),
             )
           ],
