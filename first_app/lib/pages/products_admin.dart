@@ -4,6 +4,12 @@ import 'package:first_app/pages/product_create.dart';
 import 'package:first_app/pages/product_list.dart';
 
 class ProductAdminPage extends StatelessWidget {
+
+  final Function addProduct;
+  final Function deleteProduct;
+
+  ProductAdminPage(this.addProduct, this.deleteProduct);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -19,7 +25,7 @@ class ProductAdminPage extends StatelessWidget {
               ListTile(
                 title: Text('All Products'),
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/products');
                 },
               ),
             ],
@@ -42,7 +48,7 @@ class ProductAdminPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            ProductCreatePage(),
+            ProductCreatePage(this.addProduct),
             ProductListPage()  
           ],
         )
