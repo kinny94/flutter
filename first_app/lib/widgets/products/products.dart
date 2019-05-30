@@ -1,4 +1,4 @@
-import 'package:first_app/pages/product.dart';
+import 'package:first_app/widgets/products/product_card.dart';
 import 'package:flutter/material.dart';
 
 class Products extends StatelessWidget {
@@ -8,32 +8,7 @@ class Products extends StatelessWidget {
   Products(this.products); // equivalent to assigning this.products to products in the constructor - short-hand
 
   Widget _buildProduct(BuildContext context, int index) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          Image.asset(products[index]['imageUrl']),
-          Container(
-            padding: EdgeInsets.only(top: 10.0),
-            child: Text(
-              products[index]['title'],
-              style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
-
-            ),
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
-                child: Text('Details'),
-                onPressed: () => {
-                  Navigator.pushNamed<bool>(context, '/product/' + index.toString())
-                },
-              )
-            ],
-          )
-        ],
-      ),
-    );
+    return ProductCard(this.products[index], index);
   }
 
   Widget _buildProductList() {

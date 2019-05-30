@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:first_app/pages/products_admin.dart';
 import 'package:first_app/pages/products.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
+  debugPaintSizeEnabled = false;
   runApp(MyApp());
 }
 
@@ -57,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(builder: 
             (BuildContext context) => ProductPage(
-              _products[index]['title'], _products[index]['imageUrl']
+              _products[index]['title'], _products[index]['imageUrl'], _products[index]['price'], _products[index]['description']
             )
           );
         }

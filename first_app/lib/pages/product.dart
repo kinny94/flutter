@@ -6,35 +6,10 @@ class ProductPage extends StatelessWidget {
 
   final String title;
   final String imageUrl;
+  final double price;
+  final String description;
 
-  ProductPage(this.title, this.imageUrl);
-
-  _showWarningDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title:  Text('Are you sure?'),
-          content: Text('This action cannot be undone!'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('DISCARD'),
-              onPressed: () {
-                Navigator.pop(context); // this will only close the alert dialog
-              },
-            ),
-            FlatButton(
-              child: Text('CONTINUE'),
-              onPressed: () {
-                Navigator.pop(context); // this will close the alert
-                Navigator.pop(context, true); // this will navigate to the next page
-              },
-            )
-          ],
-        );
-      }
-    );
-  }
+  ProductPage(this.title, this.imageUrl, this.price, this.description);
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +28,22 @@ class ProductPage extends StatelessWidget {
             Image.asset(this.imageUrl),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: Text('Details'), 
+              child: Text(title, style: TextStyle(fontSize: 26.0, fontFamily: 'Oswald', fontWeight: FontWeight.bold)), 
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Union Sqaure San Francisco', style: TextStyle(fontFamily: 'Oswald', color: Colors.grey)),
+                Container(margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Text('|', style: TextStyle(color: Colors.grey)),
+                ),
+                Text('\$${price.toString()}', style: TextStyle(fontFamily: 'Oswald', color: Colors.grey))
+              ],
             ),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: RaisedButton(
-                color: Theme.of(context).accentColor,
-                child: Text('Delete'),
-                onPressed: () {
-                  return this._showWarningDialog(context);
-                }
-              ),
+              alignment: Alignment.center,
+              child: Text(this.description, textAlign: TextAlign.justify),
             )
           ],
         ),
