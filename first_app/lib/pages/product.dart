@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-import 'package:first_app/product_manager.dart';
+import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
 
@@ -11,28 +11,33 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(this.title),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(this.imageUrl),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: Text('Details'), 
-          ),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: RaisedButton(
-              color: Theme.of(context).accentColor,
-              child: Text('Back'),
-              onPressed: () => Navigator.pop(context),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, false);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(this.title),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(this.imageUrl),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text('Details'), 
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: RaisedButton(
+                color: Theme.of(context).accentColor,
+                child: Text('Delete'),
+                onPressed: () => Navigator.pop(context, true),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
