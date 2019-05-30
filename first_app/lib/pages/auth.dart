@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class AuthPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _AuthPage();
   }
 }
@@ -12,6 +11,7 @@ class _AuthPage extends State<AuthPage> {
 
   String _email;
   String _password;
+  bool _acceptTerms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,15 @@ class _AuthPage extends State<AuthPage> {
               onChanged: (String value) {
                 setState(() {
                   this._password = value; 
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Accept terms'),
+              value: this._acceptTerms,
+              onChanged: (bool value) {
+                setState(() {
+                  this._acceptTerms = !this._acceptTerms; 
                 });
               },
             ),
