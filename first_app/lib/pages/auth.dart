@@ -83,7 +83,6 @@ class _AuthPage extends State<AuthPage> {
                   _buildAcceptSwitch(),
                   SizedBox(height: 10.0),
                   RaisedButton(
-                    color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     child: Text('LOGIN'),
                     onPressed: () {
