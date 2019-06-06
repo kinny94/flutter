@@ -6,8 +6,9 @@ class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   final Map<String, dynamic> product;
+  final int productIndex;
 
-  ProductEditPage({this.addProduct, this.updateProduct, this.product});
+  ProductEditPage({this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +28,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildTitleTextField() {
     return TextFormField(
+      initialValue: widget.product == null ? '' : widget.product['title'],
       decoration: InputDecoration(labelText: 'Product Title'),
       validator: (String value) {
         if (value.isEmpty && value.length < 5) {
@@ -41,6 +43,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildProductDescriptionTextField() {
     return TextFormField(
+      initialValue: widget.product == null ? '' : widget.product['description'],
       validator: (String value) {
         if (value.isEmpty && value.length < 10) {
           return 'Title is required and should be 5+ characters long';
@@ -56,6 +59,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildProductPriceTextField() {
     return TextFormField(
+      initialValue: widget.product == null ? '' : widget.product['price'].toString(),
       validator: (String value) {
         if (value.isEmpty && RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$') .hasMatch(value)) {
           return 'Price is required and should be 5+ characters long';
@@ -75,7 +79,11 @@ class _ProductEditPageState extends State<ProductEditPage> {
     }
 
     _formKey.currentState.save();
-    widget.addProduct(_formData);
+    if (widget.updateProduct == null) {
+      widget.addProduct(_formData);
+    } else {
+      widget.updateProduct(widget.productIndex, _formData);
+    }
     Navigator.pushReplacementNamed(context, '/products');
   }
    
@@ -85,9 +93,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550.0 ? 500 : deviceWidth * 0.95;
     final double targetPadding = deviceWidth - targetWidth;
-
-    return GestureDetector(
-      
+    final Widget pageContent = GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -105,7 +111,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
               height: 10.0,
             ),
             RaisedButton(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).accentColor, 
               child: Text('Save'),
               textColor: Colors.white,
               onPressed: _submitForm,
@@ -115,5 +121,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
         ),
       ),
     );
+    return widget.product == null ? pageContent : Scaffold(appBar: AppBar(title: Text('Edit Product')), body: pageContent);
   }
 }
