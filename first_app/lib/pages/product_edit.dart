@@ -1,3 +1,4 @@
+import 'package:first_app/models/product.dart';
 import 'package:first_app/widgets/helpers/ensure-visible.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ class ProductEditPage extends StatefulWidget {
 
   final Function addProduct;
   final Function updateProduct;
-  final Map<String, dynamic> product;
+  final Product product;
   final int productIndex;
 
   ProductEditPage({this.addProduct, this.updateProduct, this.product, this.productIndex});
@@ -23,7 +24,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     'title': null,
     'description': null,
     'price': null,
-    'imageUrl': 'assets/food.jpg'
+    'image': 'assets/food.jpg'
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _titleFocusNode = FocusNode();
@@ -35,7 +36,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       focusNode: _titleFocusNode,
       child: TextFormField(
         focusNode: _titleFocusNode,
-        initialValue: widget.product == null ? '' : widget.product['title'],
+        initialValue: widget.product == null ? '' : widget.product.title,
         decoration: InputDecoration(labelText: 'Product Title'),
         validator: (String value) {
           if (value.isEmpty && value.length < 5) {
@@ -54,7 +55,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       focusNode: _descriptionFocusNode,
       child: TextFormField(
         focusNode: _descriptionFocusNode,
-        initialValue: widget.product == null ? '' : widget.product['description'],
+        initialValue: widget.product == null ? '' : widget.product.description,
         validator: (String value) {
           if (value.isEmpty && value.length < 10) {
             return 'Title is required and should be 5+ characters long';
@@ -74,7 +75,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       focusNode: _priceFocusNode,
       child: TextFormField(
         focusNode: _priceFocusNode,
-        initialValue: widget.product == null ? '' : widget.product['price'].toString(),
+        initialValue: widget.product == null ? '' : widget.product.price.toString(),
         validator: (String value) {
           if (value.isEmpty && RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$') .hasMatch(value)) {
             return 'Price is required and should be 5+ characters long';
@@ -96,7 +97,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
     _formKey.currentState.save();
     if (widget.updateProduct == null) {
-      widget.addProduct(_formData);
+      widget.addProduct(Product(
+        title: _formData['title'],
+        description: _formData['description'],
+        price: _formData['price'],
+        image: _formData['image']
+      ));
     } else {
       widget.updateProduct(widget.productIndex, _formData);
     }
