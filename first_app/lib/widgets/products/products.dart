@@ -1,22 +1,16 @@
 import 'package:first_app/models/product.dart';
+import 'package:first_app/scoped-models/products.dart';
 import 'package:first_app/widgets/products/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class Products extends StatelessWidget {
-  
-  final List<Product> products; // final cause everything needs to be immutable since its a stateless widget.
 
-  Products(this.products); // equivalent to assigning this.products to products in the constructor - short-hand
-
-  Widget _buildProduct(BuildContext context, int index) {
-    return ProductCard(this.products[index], index);
-  }
-
-  Widget _buildProductList() {
+  Widget _buildProductList(List<Product> products) {
     Widget productCard;
     if (products.length > 0) {
       productCard = ListView.builder(
-        itemBuilder: _buildProduct,
+        itemBuilder: (BuildContext context, int index) => ProductCard(products[index], index),
         itemCount: products.length,
       );
     } else {
@@ -28,6 +22,10 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildProductList();
+    return ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model) {
+        return _buildProductList(model.products);
+      }
+    );
   }
 }
