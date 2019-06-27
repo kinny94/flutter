@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class TitleDefault extends StatelessWidget {
-
   final String title;
 
   TitleDefault(this.title);
@@ -9,8 +8,9 @@ class TitleDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.title,
-      style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
+      title,
+      style: TextStyle(
+          fontSize: 26.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
     );
   }
 }

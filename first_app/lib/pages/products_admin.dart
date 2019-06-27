@@ -1,11 +1,10 @@
-import 'package:first_app/models/product.dart';
 import 'package:flutter/material.dart';
 
-import 'package:first_app/pages/product_edit.dart';
-import 'package:first_app/pages/product_list.dart';
+import './product_edit.dart';
+import './product_list.dart';
+import '../models/product.dart';
 
-class ProductAdminPage extends StatelessWidget {
-
+class ProductsAdminPage extends StatelessWidget {
   Widget _buildSideDrawer(BuildContext context) {
     return Drawer(
       child: Column(
@@ -20,7 +19,7 @@ class ProductAdminPage extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, '/products');
             },
-          ),
+          )
         ],
       ),
     );
@@ -29,30 +28,27 @@ class ProductAdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length:  2,
+      length: 2,
       child: Scaffold(
         drawer: _buildSideDrawer(context),
         appBar: AppBar(
-          title: Text('Manager Products'),
+          title: Text('Manage Products'),
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
                 icon: Icon(Icons.create),
-                text: 'Create Product'
+                text: 'Create Product',
               ),
               Tab(
                 icon: Icon(Icons.list),
-                text: 'My Products'
-              )
+                text: 'My Products',
+              ),
             ],
           ),
         ),
         body: TabBarView(
-          children: <Widget>[
-            ProductEditPage(),
-            ProductListPage(null, null, null)  
-          ],
-        )
+          children: <Widget>[ProductEditPage(), ProductListPage()],
+        ),
       ),
     );
   }

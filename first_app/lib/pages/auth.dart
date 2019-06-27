@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 class AuthPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _AuthPage();
+    return _AuthPageState();
   }
 }
 
-class _AuthPage extends State<AuthPage> {
-
-  final Map<String, dynamic> _formData  = {
+class _AuthPageState extends State<AuthPage> {
+  final Map<String, dynamic> _formData = {
     'email': null,
     'password': null,
     'acceptTerms': false
@@ -18,21 +17,25 @@ class _AuthPage extends State<AuthPage> {
 
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
-      image: AssetImage('assets/background.jpg'), 
-      fit: BoxFit.cover, 
-      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstATop)
+      fit: BoxFit.cover,
+      colorFilter:
+          ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+      image: AssetImage('assets/background.jpg'),
     );
   }
 
   Widget _buildEmailTextField() {
     return TextFormField(
+      decoration: InputDecoration(
+          labelText: 'E-Mail', filled: true, fillColor: Colors.white),
+      keyboardType: TextInputType.emailAddress,
       validator: (String value) {
-        if (value.isEmpty && !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").hasMatch(value)) {
-          return 'Please enter a valid email!';
+        if (value.isEmpty ||
+            !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                .hasMatch(value)) {
+          return 'Please enter a valid email';
         }
       },
-      decoration: InputDecoration(labelText: 'Email', filled: true, fillColor: Colors.white),
-      keyboardType: TextInputType.emailAddress,
       onSaved: (String value) {
         _formData['email'] = value;
       },
@@ -41,7 +44,8 @@ class _AuthPage extends State<AuthPage> {
 
   Widget _buildPasswordTextField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Password', filled: true, fillColor: Colors.white),
+      decoration: InputDecoration(
+          labelText: 'Password', filled: true, fillColor: Colors.white),
       obscureText: true,
       validator: (String value) {
         if (value.isEmpty || value.length < 6) {
@@ -56,13 +60,13 @@ class _AuthPage extends State<AuthPage> {
 
   Widget _buildAcceptSwitch() {
     return SwitchListTile(
-      title: Text('Accept terms'),
       value: _formData['acceptTerms'],
       onChanged: (bool value) {
         setState(() {
-          _formData['acceptTerms']= !_formData['acceptTerms']; 
+          _formData['acceptTerms'] = value;
         });
       },
+      title: Text('Accept Terms'),
     );
   }
 
@@ -71,14 +75,14 @@ class _AuthPage extends State<AuthPage> {
       return;
     }
     _formKey.currentState.save();
+    print(_formData);
     Navigator.pushReplacementNamed(context, '/products');
   }
-
 
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
-    final double targetWidth =  deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
+    final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
@@ -97,24 +101,26 @@ class _AuthPage extends State<AuthPage> {
                 child: Column(
                   children: <Widget>[
                     _buildEmailTextField(),
-                    SizedBox(height: 10.0),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     _buildPasswordTextField(),
                     _buildAcceptSwitch(),
-                    SizedBox(height: 10.0),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     RaisedButton(
                       textColor: Colors.white,
                       child: Text('LOGIN'),
-                      onPressed: () {
-                        this._submitForm();
-                      },
+                      onPressed: _submitForm,
                     ),
                   ],
-                ), 
+                ),
               ),
             ),
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }
