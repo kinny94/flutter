@@ -23,8 +23,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
- 
-
   @override
   Widget build(BuildContext context) {
     return ScopedModel<ProductsModel>(
@@ -40,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (BuildContext context) => AuthPage(),
           '/products': (BuildContext context) => ProductsPage(),
-          '/admin': (BuildContext context) => ProductAdminPage(),
+          '/admin': (BuildContext context) => ProductsAdminPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final List<String> pathElements = settings.name.split('/');
