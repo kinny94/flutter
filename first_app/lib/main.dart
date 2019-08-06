@@ -1,6 +1,7 @@
 import 'package:first_app/models/product.dart';
 import 'package:first_app/pages/auth.dart';
 import 'package:first_app/pages/product.dart';
+import 'package:first_app/scoped-models/main.dart';
 import 'package:first_app/scoped-models/products.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +26,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<ProductsModel>(
-      model: ProductsModel(),
+    return ScopedModel<MainModel>(
+      model: MainModel(),
       child: MaterialApp(
         theme: ThemeData(
           brightness: Brightness.light,
